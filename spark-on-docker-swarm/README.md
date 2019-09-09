@@ -1,6 +1,6 @@
 # Deploy Stand Alone Spark Cluster on Docker Swarm
 
-This project brings up a simple Apache Spark stand alone cluster in a Docker swarm. It will also launch and make available a Jupyter PySpark notebook that is connected to the Spark cluster.
+This project brings up a simple Apache Spark stand alone cluster in a Docker swarm. It will also launch and make available a Jupyter PySpark notebook that is connected to the Spark cluster. The cluster has [`matplotlib`](https://matplotlib.org) and [`pandas`](https://pandas.pydata.org) preinstalled for you PySpark on Jupyter joys.
 
 ## Usage
 First, edit the following items as needed for your swarm:
@@ -22,7 +22,6 @@ Then point your development computer's browser at `http://swarm-public-ip:7777/`
 This cluster is a work in progress. Currently, the following items are missing:
 * Persistence for Jupyter notebooks. Once you bring down the cluster, all notebooks you made are deleted.
 * A distributed file system, such as HDFS or QFS. Currently there is no way to ingest data into the cluster except through network transfers, such as through `curl`, set up in a Jupyter notebook.
-* Robust set Python libraries. This build is currently missing things like [`matplotlib`](https://matplotlib.org) and [`pandas`](https://pandas.pydata.org) from the build.
 
 ## Acknowledgements
 The docker configuration leverages the [`gettyimages/spark`](https://hub.docker.com/r/gettyimages/spark/) Docker image as a starting point. 
