@@ -14,5 +14,5 @@ SPARK_WORKER_WEBUI_PORT=8081
 # which python the spark cluster should use for pyspark
 PYSPARK_PYTHON=python3 
 
-# hash seed so all node has numbers consistently
+# hash seed so all node hash numbers consistently
 PYTHONHASHSEED=8675309
