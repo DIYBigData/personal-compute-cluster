@@ -1,0 +1,83 @@
+version: '3'
+services:
+    spark-master:
+        image: 10.1.1.1:5000/configured-spark-node:latest
+        command: bin/spark-class org.apache.spark.deploy.master.Master -h spark-master
+        hostname: spark-master
+        environment:
+            MASTER: spark://spark-master:7077
+            SPARK_PUBLIC_DNS: 10.1.1.1
+        expose:
+            - 7001
+            - 7002
+            - 7003
+            - 7004
+            - 7005
+            - 7006
+            - 7077
+            - 6066
+        networks:
+            - spark-network
+        ports:
+            - 6066:6066
+            - 7077:7077
+            - 8080:8080
+        deploy:
+            resources:
+                limits:
+                    cpus: "2.0"
+                    memory: 8G
+     
+    spark-worker:
+        image: 10.1.1.1:5000/configured-spark-node:latest
+        command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+        hostname: spark-worker-1
+        environment:
+            SPARK_PUBLIC_DNS: 10.1.1.1
+        links:
+            - spark-master
+        expose:
+            - 7012
+            - 7013
+            - 7014
+            - 7015
+            - 7016
+            - 8881
+        networks:
+            - spark-network
+        ports:
+            - 8081:8081
+        deploy:
+            mode: replicated
+            replicas: 4
+            resources:
+                limits:
+                    cpus: "8.0"
+                    memory: 52g
+
+    spark-jupyter:
+        image: 10.1.1.1:5000/spark-jupyter-notebook:latest
+        hostname: spark-jupyter
+        environment:
+            PARK_PUBLIC_DNS: 10.1.1.1
+        depends_on:
+            - spark-master
+            - spark-worker
+        links:
+            - spark-master
+        networks:
+            - spark-network
+        expose:
+            - 7777
+            - 4040
+        ports:
+            - 7777:7777
+            - 4040:4040
+        deploy:
+            resources:
+                limits:
+                    cpus: "2.0"
+                    memory: 10G
+
+networks:
+    spark-network:
