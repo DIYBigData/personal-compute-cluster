@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 services:
     spark-master:
         image: master:5000/configured-spark-node:latest
@@ -73,6 +73,10 @@ services:
         ports:
             - 7777:7777
             - 4040:4040
+        volumes:
+            - type: bind
+              source: /mnt/gfs/jupyter-notbooks
+              target: /home/jupyter/notebooks
         deploy:
             resources:
                 limits:
@@ -81,3 +85,4 @@ services:
 
 networks:
     spark-network:
+
