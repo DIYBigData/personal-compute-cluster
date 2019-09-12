@@ -1,7 +1,7 @@
 version: '3'
 services:
     spark-master:
-        image: 10.1.1.1:5000/configured-spark-node:latest
+        image: master:5000/configured-spark-node:latest
         command: bin/spark-class org.apache.spark.deploy.master.Master -h spark-master
         hostname: spark-master
         environment:
@@ -29,7 +29,7 @@ services:
                     memory: 8G
      
     spark-worker:
-        image: 10.1.1.1:5000/configured-spark-node:latest
+        image: master:5000/configured-spark-node:latest
         command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
         hostname: spark-worker-1
         environment:
@@ -56,7 +56,7 @@ services:
                     memory: 52g
 
     spark-jupyter:
-        image: 10.1.1.1:5000/spark-jupyter-notebook:latest
+        image: master:5000/spark-jupyter-notebook:latest
         hostname: spark-jupyter
         environment:
             PARK_PUBLIC_DNS: 10.1.1.1
