@@ -22,6 +22,10 @@ services:
             - 6066:6066
             - 7077:7077
             - 8080:8080
+        volumes:
+            - type: bind
+              source: /mnt/gfs/data
+              target: /data
         deploy:
             resources:
                 limits:
@@ -47,6 +51,10 @@ services:
             - spark-network
         ports:
             - 8081:8081
+        volumes:
+            - type: bind
+              source: /mnt/gfs/data
+              target: /data
         deploy:
             mode: replicated
             replicas: 4
@@ -77,6 +85,9 @@ services:
             - type: bind
               source: /mnt/gfs/jupyter-notbooks
               target: /home/jupyter/notebooks
+            - type: bind
+              source: /mnt/gfs/data
+              target: /data
         deploy:
             resources:
                 limits:
