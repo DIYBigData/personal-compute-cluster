@@ -2,7 +2,7 @@
 
 set -e
 
-#build images
+# build images
 docker build -t configured-spark-node:latest ./configured-spark-node
 docker build -t spark-jupyter-notebook:latest ./spark-jupyter-notebook
 
