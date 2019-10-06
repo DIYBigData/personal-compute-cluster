@@ -1,0 +1,10 @@
+chunkServer.metaServer.hostname = qfs-master
+chunkServer.metaServer.port     = 30000
+chunkServer.clientPort = 22000
+chunkServer.chunkDir = /data/qfs/chunk
+chunkServer.clusterKey = qfs-personal-compute-cluster
+chunkServer.stdout = /dev/null
+chunkServer.stderr = /dev/null
+chunkServer.ioBufferPool.partitionBufferCount = 65536
+chunkServer.msgLogWriter.logLevel = INFO
+chunkServer.diskQueue.threadCount = 4

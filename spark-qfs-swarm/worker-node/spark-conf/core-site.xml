@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!-- Setting for QFS-->
+
+<configuration>
+  <property>
+    <name>fs.qfs.impl</name>
+    <value>com.quantcast.qfs.hadoop.QuantcastFileSystem</value>
+  </property>
+  <property>
+    <name>fs.defaultFS</name>
+    <value>qfs://qfs-master:20000</value>
+  </property>
+  <property>
+    <name>fs.qfs.metaServerHost</name>
+    <value>qfs-master</value>
+  </property>
+  <property>
+    <name>fs.qfs.metaServerPort</name>
+    <value>20000</value>
+  </property>
+</configuration>
