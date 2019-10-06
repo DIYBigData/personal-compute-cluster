@@ -1,0 +1,105 @@
+version: '3.4'
+services:
+    qfs-master:
+        image: master:5000/qfs-master:latest
+        hostname: qfs-master
+        networks:
+            - cluster_network
+        ports:
+            - 20000:20000
+            - 30000:30000
+            - 20050:20050
+        volumes:
+            - type: bind
+              source: /mnt/data/qfs
+              target: /data/qfs
+        deploy:
+            resources:
+                limits:
+                    cpus: "2.0"
+                    memory: 2g
+            placement:
+                constraints:
+                    - node.role == manager
+    spark-master:
+        image: master:5000/spark-master:latest
+        hostname: spark-master
+        environment:
+#            MASTER: spark://spark-master:7077
+            - SPARK_PUBLIC_DNS=10.1.1.1
+            - SPARK_LOG_DIR=/data/spark/logs
+        networks:
+            - cluster_network
+        ports:
+            - 6066:6066
+            - 7077:7077
+            - 8080:8080
+        volumes:
+            - type: bind
+              source: /mnt/data/spark
+              target: /data/spark
+        deploy:
+            resources:
+                limits:
+                    cpus: "2.0"
+                    memory: 6g
+    jupyter-server:
+        image: master:5000/jupyter-server:latest
+        hostname: jupyter-server
+        environment:
+            - SPARK_PUBLIC_DNS=10.1.1.1
+            - SPARK_LOG_DIR=/data/spark/logs
+        depends_on:
+            - spark-master
+            - qfs-master
+            - worker-node
+        networks:
+            - cluster_network
+        ports:
+            - 7777:7777
+            - 4040:4040
+        volumes:
+            - type: bind
+              source: /mnt/gfs/jupyter-notebooks
+              target: /home/jupyter/notebooks
+            - type: bind
+              source: /mnt/gfs/data
+              target: /data
+        deploy:
+            resources:
+                limits:
+                    cpus: "2.0"
+                    memory: 6g
+    worker-node:
+        image: master:5000/worker-node:latest
+        hostname: worker
+        environment:
+            - SPARK_PUBLIC_DNS=10.1.1.1
+            - SPARK_LOG_DIR=/data/spark/logs
+        depends_on:
+            - qfs-master
+            - spark-master
+        networks:
+            - cluster_network
+        ports:
+            - 8081:8081
+        volumes:
+            - type: bind
+              source: /mnt/data/qfs
+              target: /data/qfs
+            - type: bind
+              source: /mnt/data/spark
+              target: /data/spark
+        deploy:
+            mode: global
+            resources:
+               limits:
+                   cpus: "6.0"
+                   memory: 56g
+networks:
+    cluster_network:
+        attachable: true
+        ipam:
+            driver: default
+            config:
+                - subnet: 10.20.30.0/24
