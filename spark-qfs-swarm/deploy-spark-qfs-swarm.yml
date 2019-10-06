@@ -25,7 +25,6 @@ services:
         image: master:5000/spark-master:latest
         hostname: spark-master
         environment:
-#            MASTER: spark://spark-master:7077
             - SPARK_PUBLIC_DNS=10.1.1.1
             - SPARK_LOG_DIR=/data/spark/logs
         networks:
