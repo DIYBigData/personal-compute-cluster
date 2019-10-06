@@ -1,5 +1,5 @@
 # Deploy Standalone Spark Cluster with QFS on Docker Swarm
-This project deploys a standalone Spark Cluster onto a Docker Swarm. Includes the [Quantcast File System](https://github.com/quantcast/qfs) (QFS) as the clusters distributed file system. Why QFS? Why not. this configuration will also launch and make available a Jupyter PySpark notebook that is connected to the Spark cluster. The cluster has [`matplotlib`](https://matplotlib.org) and [`pandas`](https://pandas.pydata.org) preinstalled for your PySpark on Jupyter joys.
+This project deploys a standalone Spark Cluster onto a Docker Swarm. Includes the [Quantcast File System](https://github.com/quantcast/qfs) (QFS) as the clusters distributed file system. Why QFS? Why not. This configuration will also launch and make available a Jupyter PySpark notebook that is connected to the Spark cluster. The cluster has [`matplotlib`](https://matplotlib.org) and [`pandas`](https://pandas.pydata.org) preinstalled for your PySpark on Jupyter joys.
 
 ## Usage
 First, edit the following items as needed for your swarm:
