@@ -48,7 +48,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # QFS
-ENV QFS_VERSION 2.1.2
+ENV QFS_VERSION 2.1.3
 ENV HADOOP_VERSION 2.7.2
 ENV QFS_PACKAGE qfs-debian-9-${QFS_VERSION}-x86_64
 ENV QFS_HOME /usr/qfs-${QFS_VERSION}
