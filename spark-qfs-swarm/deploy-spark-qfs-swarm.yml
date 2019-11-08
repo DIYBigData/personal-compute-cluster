@@ -62,8 +62,11 @@ services:
               source: /mnt/gfs/jupyter-notebooks
               target: /home/jupyter/notebooks
             - type: bind
+              source: /mnt/data/spark
+              target: /data/spark
+            - type: bind
               source: /mnt/gfs/data
-              target: /data
+              target: /gfs/data
         deploy:
             resources:
                 limits:
