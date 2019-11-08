@@ -1,0 +1,203 @@
+version: '3.4'
+services:
+    hdfs-namenode:
+        image: master:5000/hadoop-node:latest
+        hostname: "namenode-{{.Node.Hostname}}"
+        networks:
+            cluster_network:
+                aliases:
+                    - "namenode"
+        ports:
+            - 50070:50070
+            - 50470:50470
+            - 8020:8020
+            - 9000:9000
+            - 9870:9870
+        volumes:
+            - type: bind
+              source: /mnt/data/hdfs
+              target: /data/hdfs
+        command:  ["/bin/bash", "/start-hdfs-namenode.sh"]
+        deploy:
+            resources:
+                limits:
+                    cpus: "2.0"
+                    memory: 2g
+            placement:
+                constraints:
+                    - node.role == manager                  
+    spark-master:
+        image: master:5000/spark-hdfs-node:latest
+        hostname: spark-master
+        environment:
+            - SPARK_PUBLIC_DNS=10.1.1.1
+            - SPARK_LOG_DIR=/data/spark/logs
+        networks:
+            - cluster_network
+        ports:
+            - 6066:6066
+            - 7077:7077
+            - 8080:8080
+        volumes:
+            - type: bind
+              source: /mnt/data/spark
+              target: /data/spark
+        command:  ["/bin/bash", "/start-spark-master.sh"]
+        deploy:
+            resources:
+                limits:
+                    cpus: "2.0"
+                    memory: 6g
+    jupyter:
+        image: master:5000/jupyter-node:latest
+        hostname: jupyter
+        environment:
+            - SPARK_PUBLIC_DNS=10.1.1.1
+            - SPARK_LOG_DIR=/data/spark/logs
+        depends_on:
+            - spark-master
+            - hdfs-namenode
+            - worker-node1
+            - worker-node2
+            - worker-node3
+            - worker-node4
+        networks:
+            - cluster_network
+        ports:
+            - 7777:7777
+            - 4040:4040
+        volumes:
+            - type: bind
+              source: /mnt/gfs/jupyter-notebooks
+              target: /home/jupyter/notebooks
+            - type: bind
+              source: /mnt/data/spark
+              target: /data/spark
+            - type: bind
+              source: /mnt/gfs/data
+              target: /gfs/data
+        deploy:
+            resources:
+                limits:
+                    cpus: "2.0"
+                    memory: 6g
+    worker-node1:
+        image: master:5000/spark-hdfs-node:latest
+        hostname: "worker-node1"
+        networks:
+            - cluster_network
+        environment:
+            - SPARK_PUBLIC_DNS=10.1.1.1
+            - SPARK_LOG_DIR=/data/spark/logs
+        depends_on:
+            - hdfs-namenode
+            - spark-master
+        volumes:
+            - type: bind
+              source: /mnt/data/hdfs
+              target: /data/hdfs
+            - type: bind
+              source: /mnt/data/spark
+              target: /data/spark
+        deploy:
+            mode: replicated
+            replicas: 1
+            placement:
+                constraints:
+                    - node.hostname == master
+            resources:
+               limits:
+                   cpus: "6.0"
+                   memory: 56g
+    worker-node2:
+        image: master:5000/spark-hdfs-node:latest
+        hostname: "worker-node2"
+        networks:
+            - cluster_network
+        environment:
+            - SPARK_PUBLIC_DNS=10.1.1.1
+            - SPARK_LOG_DIR=/data/spark/logs
+        depends_on:
+            - hdfs-namenode
+        volumes:
+            - type: bind
+              source: /mnt/data/hdfs
+              target: /data/hdfs
+            - type: bind
+              source: /mnt/data/spark
+              target: /data/spark
+        deploy:
+            mode: replicated
+            replicas: 1
+            placement:
+                constraints:
+                    - node.hostname == slave1
+            resources:
+               limits:
+                   cpus: "6.0"
+                   memory: 56g
+    worker-node3:
+        image: master:5000/spark-hdfs-node:latest
+        hostname: "worker-node3"
+        networks:
+            - cluster_network
+        environment:
+            - SPARK_PUBLIC_DNS=10.1.1.1
+            - SPARK_LOG_DIR=/data/spark/logs
+        depends_on:
+            - hdfs-namenode
+        volumes:
+            - type: bind
+              source: /mnt/data/hdfs
+              target: /data/hdfs
+            - type: bind
+              source: /mnt/data/spark
+              target: /data/spark
+        deploy:
+            mode: replicated
+            replicas: 1
+            placement:
+                constraints:
+                    - node.hostname == slave2
+            resources:
+               limits:
+                   cpus: "6.0"
+                   memory: 56g
+    worker-node4:
+        image: master:5000/spark-hdfs-node:latest
+        hostname: "worker-node4"
+        networks:
+            - cluster_network
+        environment:
+            - SPARK_PUBLIC_DNS=10.1.1.1
+            - SPARK_LOG_DIR=/data/spark/logs
+        depends_on:
+            - hdfs-namenode
+        volumes:
+            - type: bind
+              source: /mnt/data/hdfs
+              target: /data/hdfs
+            - type: bind
+              source: /mnt/data/spark
+              target: /data/spark
+        deploy:
+            mode: replicated
+            replicas: 1
+            placement:
+                constraints:
+                    - node.hostname == slave3
+            resources:
+               limits:
+                   cpus: "6.0"
+                   memory: 56g
+
+networks:
+    cluster_network:
+        attachable: true
+        ipam:
+            driver: default
+            config:
+                - subnet: 10.20.30.0/24
+        
+
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+	<property>
+		<name>hadoop.tmp.dir</name>
+		<value>/data/hdfs/tmp</value>
+		<description>Where Hadoop will place all of its working files</description>
+	</property>
+	<property>
+		<name>fs.defaultFS</name>
+		<value>hdfs://namenode:9000/</value>
+		<description>Where HDFS NameNode can be found on the network</description>
+	</property>
+	<property>
+		<name>hadoop.proxyuser.hduser.groups</name>
+		<value>*</value>
+		<description>
+			What user groups are allow to connect to the HDFS proxy.
+			* for all.</description>
+	</property>
+	<property>
+		<name>hadoop.proxyuser.hduser.hosts</name>
+		<value>*</value>
+		<description>
+			What user hosts are allow to connect to the HDFS proxy.
+			* for all.
+		</description>
+	</property>
+	<property>
+		<name>fs.trash.interval</name>
+		<value>120</value> 
+	</property>
+	<property>
+		<name>fs.trash.checkpoint.interval</name>
+		<value>45</value>
+	</property>
+</configuration>

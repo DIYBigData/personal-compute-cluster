@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+	<property>
+		<name>dfs.datanode.data.dir</name>
+		<value>/data/hdfs/datanode</value>
+	</property>
+	<property>
+		<name>dfs.namenode.name.dir</name>
+		<value>/data/hdfs/namenode</value>
+	</property>
+	<property>
+		<name>dfs.replication</name>
+		<value>2</value>
+		<description>The default replication factor of files on HDFS</description>
+	</property>
+	<property>
+		<name>dfs.webhdfs.enabled</name>
+		<value>true</value>
+	</property>
+	<property> 
+		<name>dfs.block.size</name>
+		<value>64m</value>
+		<description>The default block size in bytes of data saved to HDFS</description>
+	</property>
+	<property>
+		<name>dfs.namenode.datanode.registration.ip-hostname-check</name>
+		<value>false</value>
+	</property>
+	<property>
+		<name>dfs.client.use.datanode.hostname</name>
+		<value>true</value>
+	</property>
+	<property>
+		<name>dfs.datanode.use.datanode.hostname</name>
+		<value>true</value>
+	</property>
+
+	<property>
+		<name>dfs.namenode.rpc-bind-host</name>
+		<value>0.0.0.0</value>
+		<description>
+			controls what IP address the NameNode binds to. 
+			0.0.0.0 means all available.
+		</description>
+	</property>
+	<property>
+		<name>dfs.namenode.servicerpc-bind-host</name>
+		<value>0.0.0.0</value>
+		<description>
+			controls what IP address the NameNode binds to. 
+			0.0.0.0 means all available.
+		</description>
+	</property>
+	<property>
+		<name>dfs.namenode.http-bind-host</name>
+		<value>0.0.0.0</value>
+		<description>
+			controls what IP address the NameNode binds to. 
+			0.0.0.0 means all available.
+		</description>
+	</property>
+	<property>
+		<name>dfs.namenode.https-bind-host</name>
+		<value>0.0.0.0</value>
+		<description>
+			controls what IP address the NameNode binds to. 
+			0.0.0.0 means all available.
+		</description>
+	</property>
+
+</configuration>
