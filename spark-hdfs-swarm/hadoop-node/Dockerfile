@@ -5,7 +5,6 @@ MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
 #
 # Inspired by https://github.com/sciencepal/dockers/blob/master/hadoop_hive_spark_docker/hadoop/Dockerfile
 #
-#
 # Expected volumes:
 #	/data/hdfs - this is where HDFS will store its data. The host system should have the 
 #				 following subdirectories: datanode, namenode, logs
@@ -30,7 +29,7 @@ RUN apt-get update \
 
 RUN useradd -m -s /bin/bash hadoop
 
-# set pubkey authentication
+# set pubkey authentication so Hadoop name node can communicate with data nodes
 RUN echo "PubkeyAuthentication yes" >> /etc/ssh/ssh_config
 RUN mkdir -p /home/hadoop/.ssh
 RUN echo "PubkeyAcceptedKeyTypes +ssh-dss" >> /home/hadoop/.ssh/config \
@@ -39,7 +38,7 @@ RUN echo "PubkeyAcceptedKeyTypes +ssh-dss" >> /home/hadoop/.ssh/config \
 		&& echo "UserKnownHostsFile /dev/null" >> /home/hadoop/.ssh/config \
 		&& echo "LogLevel QUIET" >> /home/hadoop/.ssh/config
 
-# copy keys
+# make and copy keys
 RUN ssh-keygen -q -t rsa -N '' -f /home/hadoop/.ssh/id_rsa
 RUN cat /home/hadoop/.ssh/id_rsa.pub >> /home/hadoop/.ssh/authorized_keys
 RUN chown hadoop -R /home/hadoop/.ssh
@@ -58,7 +57,7 @@ RUN curl -sL --retry 3 \
  && rm -rf $HADOOP_HOME/share/doc \
  && chown -R root:root $HADOOP_HOME
 COPY ./hadoop-conf/* $HADOOP_CONF_DIR
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 COPY start-hdfs-*.sh /
 

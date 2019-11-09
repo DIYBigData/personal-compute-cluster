@@ -1,11 +1,6 @@
 #!/bin/bash
 
 # check for existence of required volumes
-if [ ! -d '/data/spark' ]; then
-  echo "Spark work directory not found: /data/spark"
-  exit 2
-fi
-
 if [ ! -d '/data/hdfs' ]; then
   echo "HDFS work directory not found: /data/hdfs"
   exit 2

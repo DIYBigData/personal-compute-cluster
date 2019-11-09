@@ -3,13 +3,12 @@ MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
 #
 # Base image for Apace Spak standalone cluster with HDFS 
 #
-#
 # Expected volumes:
 #	/data/hdfs - this is where HDFS will store its data
 #	/data/spark - this is the spark working directory
 #
 # Expected service names:
-#	hdfs-master - the service where the hdfs name node runs
+#	namenode - the service where the hdfs name node runs
 #	spark-master - the service where the spark master runs
 #
 
