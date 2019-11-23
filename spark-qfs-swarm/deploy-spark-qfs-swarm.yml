@@ -26,7 +26,6 @@ services:
         hostname: spark-master
         environment:
             - SPARK_PUBLIC_DNS=10.1.1.1
-            - SPARK_LOG_DIR=/data/spark/logs
         networks:
             - cluster_network
         ports:
@@ -47,7 +46,6 @@ services:
         hostname: jupyter-server
         environment:
             - SPARK_PUBLIC_DNS=10.1.1.1
-            - SPARK_LOG_DIR=/data/spark/logs
         depends_on:
             - spark-master
             - qfs-master
@@ -60,10 +58,13 @@ services:
         volumes:
             - type: bind
               source: /mnt/gfs/jupyter-notebooks
-              target: /home/jupyter/notebooks
+              target: /home/spark/jupyter/notebooks
+            - type: bind
+              source: /mnt/data/spark
+              target: /data/spark
             - type: bind
               source: /mnt/gfs/data
-              target: /data
+              target: /gfs/data
         deploy:
             resources:
                 limits:
@@ -74,7 +75,6 @@ services:
         hostname: worker
         environment:
             - SPARK_PUBLIC_DNS=10.1.1.1
-            - SPARK_LOG_DIR=/data/spark/logs
         depends_on:
             - qfs-master
             - spark-master
@@ -93,7 +93,7 @@ services:
             mode: global
             resources:
                limits:
-                   cpus: "6.0"
+                   cpus: "8.0"
                    memory: 56g
 networks:
     cluster_network:

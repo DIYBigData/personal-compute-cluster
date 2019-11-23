@@ -18,4 +18,6 @@ PYSPARK_PYTHON=python3
 PYTHONHASHSEED=8675309
 
 # the location of spark working files
-SPARK_LOCAL_DIRS=/data/spark
+SPARK_LOCAL_DIRS=/data/spark/tmp
+SPARK_WORKER_DIR=/data/spark/work
+SPARK_LOG_DIR=/data/spark/logs

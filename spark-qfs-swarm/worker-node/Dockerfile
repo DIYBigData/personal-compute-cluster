@@ -38,6 +38,10 @@ RUN apt-get update \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
+# add python libraries useful in PySpark
+RUN python3 -mpip install matplotlib \
+	&& pip3 install pandas
+
 ENV PYTHONIOENCODING UTF-8
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 
@@ -46,6 +50,9 @@ RUN apt-get update \
  && apt-get install -y openjdk-8-jre \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
+
+# create the user software will run from
+RUN useradd -m -s /bin/bash spark
 
 # QFS
 ENV QFS_VERSION 2.1.3
@@ -62,6 +69,8 @@ RUN curl -sL --retry 3 \
 	&& chown -R root:root $QFS_HOME
 COPY ./qfs-conf/* $QFS_HOME/conf/
 ENV PATH $PATH:${QFS_HOME}/bin:${QFS_HOME}/bin/tools
+RUN mkdir -p /data/qfs/ \
+ && chown spark -R /data/qfs
 
 # SPARK
 ENV SPARK_VERSION 2.4.4
@@ -77,12 +86,11 @@ RUN curl -sL --retry 3 \
  && mv /usr/$SPARK_PACKAGE $SPARK_HOME \
  && chown -R root:root $SPARK_HOME
 COPY ./spark-conf/* $SPARK_HOME/conf/
-
-# add python libraries useful in PySpark
-RUN python3 -mpip install matplotlib \
-	&& pip3 install pandas
+RUN mkdir -p /data/spark \
+ && chown spark -R /data/spark
 
 # set up command
-WORKDIR /root
 COPY start-worker-node.sh /
+USER spark
+WORKDIR /home/spark
 CMD ["/bin/bash", "/start-worker-node.sh"]

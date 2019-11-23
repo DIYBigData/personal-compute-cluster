@@ -7,4 +7,4 @@ chunkServer.stdout = /dev/null
 chunkServer.stderr = /dev/null
 chunkServer.ioBufferPool.partitionBufferCount = 65536
 chunkServer.msgLogWriter.logLevel = INFO
-chunkServer.diskQueue.threadCount = 4
+chunkServer.diskQueue.threadCount = 12
