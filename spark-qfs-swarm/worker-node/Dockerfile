@@ -38,10 +38,6 @@ RUN apt-get update \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-# add python libraries useful in PySpark
-RUN python3 -mpip install matplotlib \
-	&& pip3 install pandas
-
 ENV PYTHONIOENCODING UTF-8
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 
@@ -88,6 +84,10 @@ RUN curl -sL --retry 3 \
 COPY ./spark-conf/* $SPARK_HOME/conf/
 RUN mkdir -p /data/spark \
  && chown spark -R /data/spark
+
+# add python libraries useful in PySpark
+RUN python3 -mpip install matplotlib \
+	&& pip3 install pandas 
 
 # set up command
 COPY start-worker-node.sh /
