@@ -87,7 +87,7 @@ RUN mkdir -p /data/spark \
 
 # add python libraries useful in PySpark
 RUN python3 -mpip install matplotlib \
-	&& pip3 install pandas 
+	&& pip3 install pandas seaborn
 
 # set up command
 COPY start-worker-node.sh /
