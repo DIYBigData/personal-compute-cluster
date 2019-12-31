@@ -3,7 +3,7 @@ FROM qfs-master:latest
 #
 # Expected volumes:
 # 	/home/spark/jupyter/notebooks - where the Jupyter notebooks will be persisted
-#   /data/spark - Spark's ata directory
+#   /data/spark - Spark's data directory
 #
 
 USER root
