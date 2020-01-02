@@ -93,7 +93,6 @@ services:
             mode: global
             resources:
                limits:
-                   cpus: "8.0"
                    memory: 56g
 networks:
     cluster_network:

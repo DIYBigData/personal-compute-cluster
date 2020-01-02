@@ -63,7 +63,6 @@ RUN curl -sL --retry 3 \
 	| tar x -C /usr/ \
 	&& mv /usr/$QFS_PACKAGE $QFS_HOME \
 	&& chown -R root:root $QFS_HOME
-COPY ./qfs-conf/* $QFS_HOME/conf/
 ENV PATH $PATH:${QFS_HOME}/bin:${QFS_HOME}/bin/tools
 RUN mkdir -p /data/qfs/ \
  && chown spark -R /data/qfs
@@ -81,13 +80,16 @@ RUN curl -sL --retry 3 \
   | tar x -C /usr/ \
  && mv /usr/$SPARK_PACKAGE $SPARK_HOME \
  && chown -R root:root $SPARK_HOME
-COPY ./spark-conf/* $SPARK_HOME/conf/
 RUN mkdir -p /data/spark \
  && chown spark -R /data/spark
 
 # add python libraries useful in PySpark
 RUN python3 -mpip install matplotlib \
 	&& pip3 install pandas seaborn
+
+# copy QFS and Spark configurations
+COPY ./qfs-conf/* $QFS_HOME/conf/
+COPY ./spark-conf/* $SPARK_HOME/conf/
 
 # set up command
 COPY start-worker-node.sh /
