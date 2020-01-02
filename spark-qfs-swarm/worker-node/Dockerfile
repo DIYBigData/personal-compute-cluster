@@ -62,7 +62,8 @@ RUN curl -sL --retry 3 \
 	| gunzip \
 	| tar x -C /usr/ \
 	&& mv /usr/$QFS_PACKAGE $QFS_HOME \
-	&& chown -R root:root $QFS_HOME
+	&& chown -R root:root $QFS_HOME \
+	&& ln -s $QFS_HOME /usr/local/qfs
 ENV PATH $PATH:${QFS_HOME}/bin:${QFS_HOME}/bin/tools
 RUN mkdir -p /data/qfs/ \
  && chown spark -R /data/qfs
@@ -79,9 +80,11 @@ RUN curl -sL --retry 3 \
   | gunzip \
   | tar x -C /usr/ \
  && mv /usr/$SPARK_PACKAGE $SPARK_HOME \
- && chown -R root:root $SPARK_HOME
+ && chown -R root:root $SPARK_HOME \
+ && ln -s $SPARK_HOME /usr/local/spark
 RUN mkdir -p /data/spark \
  && chown spark -R /data/spark
+ 
 
 # add python libraries useful in PySpark
 RUN python3 -mpip install matplotlib \
