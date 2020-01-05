@@ -11,7 +11,7 @@ First, edit the following items as needed for your swarm:
 
 This set up depends on have a GlusterFS volume mounted at `/mnt/gfs` and a normal file system (such as XFS) at `/mnt/data` on all nodes and the following directories exist on it:
 
-* `/mnt/gfs/jupyter-notbooks` - used to persist the Jupyter notebooks.
+* `/mnt/gfs/jupyter-notbooks` - used to persist the Jupyter notebooks. 
 * `/mnt/gfs/data` - a location to transitionally store data that is accessible from the Jupyter server
 * `/mnt/data/qfs/logs` - where QFS will store it's logs
 * `/mnt/data/qfs/chunk` - Where the chunk servers of QFS will store the data
@@ -24,9 +24,10 @@ Before the first time you run this cluster, you will need to initialize the QFS 
 ```
 docker run -it -u spark --mount type=bind,source=/mnt/data/qfs,target=/data/qfs master:5000/qfs-master:latest /bin/bash
 ```
-Then at the shell prompt in this container, run:
+Then at the shell prompt in this container, run the following to initialize QFS and create the directory for Spark history server:
 ```
 $QFS_HOME/bin/metaserver -c $QFS_HOME/conf/Metaserver.prp
+qfs -mkdir /history/spark-event
 exit
 ```
 
@@ -49,5 +50,6 @@ Note that you must attach to the network on which the Docker spark cluster servi
 * `cptoqfs` - Copies files from the local file system (in the Docker container) to the QFS instance.
 * `cpfromqfs` - Copies files from the QFS instance to the local file system (in the Docker container)
 * `qfsshell` - A useful shell-style interface to the QFS instance
+* `qfsfsck` - Perform `fsck` on the QFS file system
 
 You might consider adding a volume mount to the `docker run` command so that the Docker container can access data from you local file system.

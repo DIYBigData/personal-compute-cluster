@@ -32,6 +32,7 @@ services:
             - 6066:6066
             - 7077:7077
             - 8080:8080
+            - 18080:18080
         volumes:
             - type: bind
               source: /mnt/data/spark
