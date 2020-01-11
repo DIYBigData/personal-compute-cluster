@@ -15,6 +15,12 @@ MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
 #	spark-master - the service where the spark master runs
 #
 
+ENV QFS_VERSION 2.1.3
+ENV SPARK_VERSION 2.4.4
+ENV HADOOP_MINOR_VERSION 2.7
+ENV HADOOP_VERSION 2.7.2
+ENV SCALA_VERSION 2.11.12
+
 RUN apt-get update \
  && apt-get install -y locales \
  && dpkg-reconfigure -f noninteractive locales \
@@ -41,18 +47,20 @@ RUN apt-get update \
 ENV PYTHONIOENCODING UTF-8
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 
-# JAVA
+# JAVA & SCALA
 RUN apt-get update \
  && apt-get install -y openjdk-8-jre \
+ && apt-get remove scala-library scala  \
+ && curl -o scala-${SCALA_VERSION}.deb https://www.scala-lang.org/files/archive/scala-${SCALA_VERSION}.deb \
+ && dpkg -i scala-${SCALA_VERSION}.deb \
  && apt-get clean \
+ && rm scala-${SCALA_VERSION}.deb \
  && rm -rf /var/lib/apt/lists/*
 
 # create the user software will run from
 RUN useradd -m -s /bin/bash spark
 
 # QFS
-ENV QFS_VERSION 2.1.3
-ENV HADOOP_VERSION 2.7.2
 ENV QFS_PACKAGE qfs-debian-9-${QFS_VERSION}-x86_64
 ENV QFS_HOME /usr/qfs-${QFS_VERSION}
 ENV QFS_LOGS_DIR /data/qfs/logs
@@ -69,8 +77,7 @@ RUN mkdir -p /data/qfs/ \
  && chown spark -R /data/qfs
 
 # SPARK
-ENV SPARK_VERSION 2.4.4
-ENV SPARK_PACKAGE spark-${SPARK_VERSION}-bin-hadoop2.7
+ENV SPARK_PACKAGE spark-${SPARK_VERSION}-bin-hadoop${HADOOP_MINOR_VERSION}
 ENV SPARK_HOME /usr/spark-${SPARK_VERSION}
 ENV SPARK_DIST_CLASSPATH="$QFS_HOME/lib/hadoop-$HADOOP_VERSION-qfs-$QFS_VERSION.jar:$QFS_HOME/lib/qfs-access-$QFS_VERSION"
 ENV HADOOP_CONF_DIR=${SPARK_HOME}/conf/
