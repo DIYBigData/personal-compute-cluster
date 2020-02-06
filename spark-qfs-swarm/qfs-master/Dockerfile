@@ -22,7 +22,7 @@ COPY start-qfs-master.sh /
 USER spark
 # create some useful bash aliases for when at bash shell prompt of this image
 RUN echo 'export PATH=$PATH:$QFS_HOME/bin/:$QFS_HOME/bin/tools/' >> ~/.bash_aliases \
- && echo 'alias qfs="qfs -fs qfs://qfs-master:20000"' >> ~/.bash_aliases \
+ && echo 'alias qfs="qfs -fs qfs://qfs-master:20000 -D fs.trash.minPathDepth=2 -D fs.createParams=2"' >> ~/.bash_aliases \
  && echo 'alias cptoqfs="cptoqfs -s qfs-master -p 20000"' >> ~/.bash_aliases \
  && echo 'alias cpfromqfs="cpfromqfs -s qfs-master -p 20000"' >> ~/.bash_aliases \
  && echo 'alias qfsshell="qfsshell -s qfs-master -p 20000"' >> ~/.bash_aliases \

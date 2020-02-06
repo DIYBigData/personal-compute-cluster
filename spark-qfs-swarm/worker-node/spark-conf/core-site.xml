@@ -20,4 +20,13 @@
     <name>fs.qfs.metaServerPort</name>
     <value>20000</value>
   </property>
+  <property>
+    <!-- This parameter makes it so that all files written from spark are
+         created with a replication of 2 rather than using the defaault
+         Reed-Solomon encoding. If you have a cluster with 9 or greater
+         nodes, remove this option to favor the Reed-Solomon encoding.
+    -->
+    <name>fs.qfs.createParams</name>
+    <value>2</value>
+  </property>
 </configuration>
