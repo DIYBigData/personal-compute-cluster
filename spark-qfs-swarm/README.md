@@ -18,7 +18,11 @@ This set up depends on have a GlusterFS volume mounted at `/mnt/gfs` and a norma
 * `/mnt/data/qfs/checkpoint` - Where the QFS metaserver will store the fulesystem check points. This actually only needs to exist on the master node.
 * `/mnt/data/spark` - The local working directory for spark
 
-You can adjust these as you see fit, but be sure to update the mounts specified in `deploy-spark-qfs-swarm.yml`. 
+You can adjust these as you see fit, but be sure to update the mounts specified in `deploy-spark-qfs-swarm.yml`. Then build the docker images from in this project's directory:
+
+```
+./build-images.sh
+```
 
 Before the first time you run this cluster, you will need to initialize the QFS file system. Do so by launching a qfs-master container on the master node:
 ```
@@ -31,9 +35,8 @@ qfs -mkdir /history/spark-event
 exit
 ```
 
-Finally, to start up the Spark cluster in your Docker swarm, `cd` into this project's directory and:
+Finally, to start up the Spark cluster in your Docker swarm:
 ```
-./build-images.sh
 docker stack deploy -c deploy-spark-qfs-swarm.yml spark
 ```
 
