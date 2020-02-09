@@ -26,6 +26,7 @@ RUN echo 'export PATH=$PATH:$QFS_HOME/bin/:$QFS_HOME/bin/tools/' >> ~/.bash_alia
  && echo 'alias cptoqfs="cptoqfs -s qfs-master -p 20000"' >> ~/.bash_aliases \
  && echo 'alias cpfromqfs="cpfromqfs -s qfs-master -p 20000"' >> ~/.bash_aliases \
  && echo 'alias qfsshell="qfsshell -s qfs-master -p 20000"' >> ~/.bash_aliases \
- && echo 'alias qfsfsck="qfsfsck -s qfs-master -p 20000"' >> ~/.bash_aliases
+ && echo 'alias qfsfsck="qfsfsck -s qfs-master -p 20000"' >> ~/.bash_aliases \
+ && echo 'alias qfsfileenum="qfsfileenum -s qfs-master -p 20000"' >> ~/.bash_aliases
 
 CMD ["/bin/bash", "/start-qfs-master.sh"]

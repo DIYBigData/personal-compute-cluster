@@ -15,11 +15,11 @@ MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
 #	spark-master - the service where the spark master runs
 #
 
-ENV QFS_VERSION 2.1.3
-ENV SPARK_VERSION 2.4.4
-ENV HADOOP_MINOR_VERSION 2.7
-ENV HADOOP_VERSION 2.7.2
-ENV SCALA_VERSION 2.11.12
+ARG QFS_VERSION=2.1.3
+ARG SPARK_VERSION=2.4.4
+ARG HADOOP_MINOR_VERSION=2.7
+ARG HADOOP_VERSION=2.7.2
+ARG SCALA_VERSION=2.11.12
 
 RUN apt-get update \
  && apt-get install -y locales \
@@ -61,14 +61,17 @@ RUN apt-get update \
 RUN useradd -m -s /bin/bash spark
 
 # QFS
-ENV QFS_PACKAGE qfs-debian-9-${QFS_VERSION}-x86_64
+#ENV QFS_PACKAGE qfs-debian-9-${QFS_VERSION}-x86_64
+ENV QFS_PACKAGE qfs-debian-9-de3b9d66-x86_64
 ENV QFS_HOME /usr/qfs-${QFS_VERSION}
 ENV QFS_LOGS_DIR /data/qfs/logs
 ENV LD_LIBRARY_PATH ${QFS_HOME}/lib
-RUN curl -sL --retry 3 \
-	"https://s3.amazonaws.com/quantcast-qfs/qfs-debian-9-${QFS_VERSION}-x86_64.tgz" \
-	| gunzip \
-	| tar x -C /usr/ \
+ARG QFS_DOWNLOAD_URL="https://s3.amazonaws.com/quantcast-qfs/qfs-debian-9-${QFS_VERSION}-x86_64.tgz"
+RUN echo "Downloading QFS from : ${QFS_DOWNLOAD_URL}\n" \
+	&& curl -L --retry 3 \
+	     $QFS_DOWNLOAD_URL \
+	   | gunzip \
+	   | tar x -C /usr/ \
 	&& mv /usr/$QFS_PACKAGE $QFS_HOME \
 	&& chown -R root:root $QFS_HOME \
 	&& ln -s $QFS_HOME /usr/local/qfs
@@ -82,13 +85,15 @@ ENV SPARK_HOME /usr/spark-${SPARK_VERSION}
 ENV SPARK_DIST_CLASSPATH="$QFS_HOME/lib/hadoop-$HADOOP_VERSION-qfs-$QFS_VERSION.jar:$QFS_HOME/lib/qfs-access-$QFS_VERSION"
 ENV HADOOP_CONF_DIR=${SPARK_HOME}/conf/
 ENV PATH $PATH:${SPARK_HOME}/bin
-RUN curl -sL --retry 3 \
-  "https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/${SPARK_PACKAGE}.tgz" \
-  | gunzip \
-  | tar x -C /usr/ \
- && mv /usr/$SPARK_PACKAGE $SPARK_HOME \
- && chown -R root:root $SPARK_HOME \
- && ln -s $SPARK_HOME /usr/local/spark
+ARG SPARK_DOWNLOAD_URL="https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/${SPARK_PACKAGE}.tgz"
+RUN echo "Downloading Spark from : ${SPARK_DOWNLOAD_URL}\n" \
+	&& curl -L --retry 3 \
+	     $SPARK_DOWNLOAD_URL \
+	   | gunzip \
+	   | tar x -C /usr/ \
+	&& mv /usr/$SPARK_PACKAGE $SPARK_HOME \
+	&& chown -R root:root $SPARK_HOME \
+	&& ln -s $SPARK_HOME /usr/local/spark
 RUN mkdir -p /data/spark \
  && chown spark -R /data/spark
  
