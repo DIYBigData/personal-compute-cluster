@@ -16,7 +16,7 @@ MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
 #
 
 ARG QFS_VERSION=2.1.3
-ARG SPARK_VERSION=2.4.4
+ARG SPARK_VERSION=2.4.5
 ARG HADOOP_MINOR_VERSION=2.7
 ARG HADOOP_VERSION=2.7.2
 ARG SCALA_VERSION=2.11.12
@@ -61,8 +61,7 @@ RUN apt-get update \
 RUN useradd -m -s /bin/bash spark
 
 # QFS
-#ENV QFS_PACKAGE qfs-debian-9-${QFS_VERSION}-x86_64
-ENV QFS_PACKAGE qfs-debian-9-de3b9d66-x86_64
+ARG QFS_PACKAGE=qfs-debian-9-${QFS_VERSION}-x86_64
 ENV QFS_HOME /usr/qfs-${QFS_VERSION}
 ENV QFS_LOGS_DIR /data/qfs/logs
 ENV LD_LIBRARY_PATH ${QFS_HOME}/lib
