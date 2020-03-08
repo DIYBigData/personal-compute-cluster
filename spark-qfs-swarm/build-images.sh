@@ -14,7 +14,7 @@ done
 
 if [ -z "$DOCKER_ARGS" ]
 then
-	echo "Building with default docker optins"
+	echo "Building with default docker options"
 else
 	echo "Building with docker arguments = '$DOCKER_BUILD_ARGS'"
 fi
