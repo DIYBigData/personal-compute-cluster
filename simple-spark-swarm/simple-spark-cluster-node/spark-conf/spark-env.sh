@@ -1,8 +1,8 @@
 # the total amount of memory a worker (node) can use
-SPARK_WORKER_MEMORY=52g
+SPARK_WORKER_MEMORY=56g
 
 # the total amount of cores a worker (node) can use
-SPARK_WORKER_CORES=10
+SPARK_WORKER_CORES=12
 
 # the number of worker processes per node
 SPARK_WORKER_INSTANCES=1
@@ -16,3 +16,8 @@ PYSPARK_PYTHON=python3
 
 # hash seed so all node hash numbers consistently
 PYTHONHASHSEED=8675309
+
+# the location of spark working files
+SPARK_LOCAL_DIRS=/app/spark/tmp
+SPARK_WORKER_DIR=/app/spark/work
+SPARK_LOG_DIR=/app/spark/logs

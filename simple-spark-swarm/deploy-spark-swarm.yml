@@ -1,99 +1,83 @@
 version: '3.4'
 services:
     spark-master:
-        image: master:5000/configured-spark-node:latest
-        command: bin/spark-class org.apache.spark.deploy.master.Master -h spark-master
+        image: master:5000/simple-spark-cluster-node:latest
+        command: ["/bin/bash", "/start-spark-master.sh"]
         hostname: spark-master
-        environment:
-            MASTER: spark://spark-master:7077
-            SPARK_PUBLIC_DNS: 10.1.1.1
-        expose:
-            - 7001
-            - 7002
-            - 7003
-            - 7004
-            - 7005
-            - 7006
-            - 7077
-            - 6066
         networks:
-            - spark-network
+            - cluster_network
         ports:
             - 6066:6066
             - 7077:7077
             - 8080:8080
+            - 18080:18080
         volumes:
             - type: bind
               source: /mnt/gfs/data
               target: /data
+            - type: bind
+              source: /mnt/data/spark
+              target: /app/spark
         deploy:
             resources:
                 limits:
                     cpus: "2.0"
-                    memory: 8G
-     
+                    memory: 6g     
     spark-worker:
-        image: master:5000/configured-spark-node:latest
-        command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+        image: master:5000/simple-spark-cluster-node:latest
         hostname: spark-worker
-        environment:
-            SPARK_PUBLIC_DNS: 10.1.1.1
-        links:
+        depends_on:
+            - qfs-master
             - spark-master
-        expose:
-            - 7012
-            - 7013
-            - 7014
-            - 7015
-            - 7016
-            - 8881
         networks:
-            - spark-network
+            - cluster_network
         ports:
             - 8081:8081
         volumes:
             - type: bind
               source: /mnt/gfs/data
               target: /data
+            - type: bind
+              source: /mnt/data/spark
+              target: /app/spark
         deploy:
-            mode: replicated
-            replicas: 4
+            mode: global
             resources:
                 limits:
-                    cpus: "6.0"
-                    memory: 52g
-
+                    memory: 56g
     spark-jupyter:
-        image: master:5000/spark-jupyter-notebook:latest
+        image: master:5000/simple-spark-cluster-jupyter:latest
         hostname: spark-jupyter
-        environment:
-            PARK_PUBLIC_DNS: 10.1.1.1
         depends_on:
             - spark-master
             - spark-worker
-        links:
-            - spark-master
         networks:
-            - spark-network
-        expose:
-            - 7777
-            - 4040
+            - cluster_network
         ports:
             - 7777:7777
             - 4040:4040
+            - 4041:4041
         volumes:
             - type: bind
               source: /mnt/gfs/jupyter-notebooks
-              target: /home/jupyter/notebooks
+              target: /home/spark/jupyter/notebooks
             - type: bind
               source: /mnt/gfs/data
               target: /data
+            - type: bind
+              source: /mnt/data/spark
+              target: /app/spark
         deploy:
             resources:
                 limits:
                     cpus: "2.0"
-                    memory: 10G
+                    memory: 6g
 
 networks:
-    spark-network:
+    cluster_network:
+        attachable: true
+        ipam:
+            driver: default
+            config:
+                - subnet: 10.20.30.0/24
 
