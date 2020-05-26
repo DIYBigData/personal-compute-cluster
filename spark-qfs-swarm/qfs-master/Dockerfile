@@ -10,7 +10,7 @@ FROM worker-node:latest
 # need python 2 for webserver
 USER root
 RUN apt-get update \
- && apt-get install -y python2.7 less wget vim openssh-client \
+ && apt-get install -y python2.7 wget vim openssh-client \
  && ln -s /usr/bin/python2.7 /usr/bin/python2 \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*

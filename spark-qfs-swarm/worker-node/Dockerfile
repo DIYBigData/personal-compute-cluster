@@ -1,7 +1,7 @@
 FROM debian:stretch
 MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
 #
-# Base image for Apace Spak standalone cluster with QFS 
+# Base image for Apace Spak standalone cluster with QFS
 #
 # Inspired by https://hub.docker.com/r/gettyimages/spark/dockerfile
 #
@@ -30,13 +30,13 @@ RUN apt-get update \
  && locale-gen \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
- 
+
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 RUN apt-get update \
- && apt-get install -y curl unzip procps \
+ && apt-get install -y less curl unzip procps \
     python3 python3-setuptools \
     libboost-regex-dev \
  && ln -s /usr/bin/python3 /usr/bin/python \
@@ -95,7 +95,7 @@ RUN echo "Downloading Spark from : ${SPARK_DOWNLOAD_URL}\n" \
 	&& ln -s $SPARK_HOME /usr/local/spark
 RUN mkdir -p /data/spark \
  && chown spark -R /data/spark
- 
+
 
 # add python libraries useful in PySpark
 RUN python3 -mpip install matplotlib \
