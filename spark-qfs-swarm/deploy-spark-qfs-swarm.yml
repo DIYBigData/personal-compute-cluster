@@ -11,7 +11,7 @@ services:
             - 20050:20050
         volumes:
             - type: bind
-              source: /mnt/data/qfs
+              source: /mnt/storage/qfs
               target: /data/qfs
         deploy:
             resources:
@@ -85,7 +85,7 @@ services:
             - 8081:8081
         volumes:
             - type: bind
-              source: /mnt/data/qfs
+              source: /mnt/storage/qfs
               target: /data/qfs
             - type: bind
               source: /mnt/data/spark
