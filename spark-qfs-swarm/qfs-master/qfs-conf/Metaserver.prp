@@ -9,3 +9,7 @@ chunkServer.msgLogWriter.logLevel = NOTICE
 metaServer.rootDirMode = 0777
 metaServer.rootDirGroup = 1000
 metaServer.rootDirUser = 1000
+
+metaServer.rebalancingEnabled = 1
+metaServer.maxRebalanceSpaceUtilThreshold = 0.50
+metaServer.minRebalanceSpaceUtilThreshold = 0.45
