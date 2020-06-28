@@ -99,7 +99,7 @@ RUN mkdir -p /data/spark \
 
 # add python libraries useful in PySpark
 RUN python3 -mpip install matplotlib \
-	&& pip3 install pandas seaborn
+	&& pip3 install pandas seaborn pyarrow
 
 # copy QFS and Spark configurations
 COPY ./qfs-conf/* $QFS_HOME/conf/
