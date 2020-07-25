@@ -22,7 +22,6 @@ RUN jupyter nbextensions_configurator enable --user
 RUN jupyter nbextension enable toc2/main
 RUN jupyter nbextension enable codefolding/main
 RUN jupyter nbextension enable execute_time/ExecuteTime
-RUN jupyter nbextension enable code_prettify/code_prettify
 
 RUN mkdir -p /home/spark/jupyter/runtime \
  &&	mkdir -p /home/spark/jupyter/notebooks
