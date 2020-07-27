@@ -4,14 +4,12 @@ FROM worker-node:latest
 # Expected volumes:
 #	/data/qfs - this is where QFS will store its data
 #
-# Instance should run on the swam's master node so as to persist configuration
+# Instance should run on the swarm's master node so as to persist configuration
 #
 
-# need python 2 for webserver
 USER root
 RUN apt-get update \
- && apt-get install -y python2.7 wget vim openssh-client \
- && ln -s /usr/bin/python2.7 /usr/bin/python2 \
+ && apt-get install -y wget vim openssh-client \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
