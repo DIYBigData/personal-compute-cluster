@@ -58,14 +58,11 @@ services:
             - 4040:4040
         volumes:
             - type: bind
-              source: /mnt/gfs/jupyter-notebooks
+              source: /mnt/share/jupyter-notebooks
               target: /home/spark/jupyter/notebooks
             - type: bind
               source: /mnt/data/spark
               target: /data/spark
-            - type: bind
-              source: /mnt/gfs/data
-              target: /gfs/data
         deploy:
             resources:
                 limits:
