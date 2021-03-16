@@ -16,10 +16,10 @@ MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
 #
 
 ARG QFS_VERSION=2.2.2
-ARG SPARK_VERSION=3.0.1
+ARG SPARK_VERSION=3.1.1
 ARG HADOOP_MINOR_VERSION=2.7
 ARG HADOOP_VERSION=2.7.2
-ARG SCALA_VERSION=2.12.12
+ARG SCALA_VERSION=2.12.13
 
 RUN apt-get update \
  && apt-get install -y locales \
