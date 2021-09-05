@@ -15,8 +15,8 @@ MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
 #	spark-master - the service where the spark master runs
 #
 
-ARG QFS_VERSION=2.2.3
-ARG SPARK_VERSION=3.1.1
+ARG QFS_VERSION=2.2.4
+ARG SPARK_VERSION=3.1.2
 ARG HADOOP_MINOR_VERSION=2.7
 ARG HADOOP_VERSION=2.7.2
 ARG SCALA_VERSION=2.12.13
