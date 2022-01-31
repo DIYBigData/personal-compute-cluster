@@ -41,7 +41,7 @@ services:
             resources:
                 limits:
                     cpus: "2.0"
-                    memory: 6g
+                    memory: 9g
     jupyter-server:
         image: master:5000/jupyter-server:latest
         hostname: jupyter-server
@@ -67,7 +67,7 @@ services:
             resources:
                 limits:
                     cpus: "2.0"
-                    memory: 6g
+                    memory: 9g
     worker-node:
         image: master:5000/worker-node:latest
         hostname: worker
@@ -91,7 +91,7 @@ services:
             mode: global
             resources:
                limits:
-                   memory: 56g
+                   memory: 52g
 networks:
     cluster_network:
         attachable: true
