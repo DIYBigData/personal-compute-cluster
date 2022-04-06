@@ -6,12 +6,12 @@ FROM qfs-master:latest
 #   /data/spark - Spark's data directory
 #
 
-ENV GRAPHFRAMES_VERSION 0.8.1-spark3.0-s_2.12
+ENV GRAPHFRAMES_VERSION 0.8.2-spark3.2-s_2.12
 
 USER root
 RUN apt-get install -y g++
 RUN pip3 install \
-        notebook==5.7.9 \
+        notebook \
         jupyter_nbextensions_configurator \
         jupyter_contrib_nbextensions \
         yapf wget
