@@ -19,7 +19,7 @@ ARG QFS_VERSION=2.2.4
 ARG SPARK_VERSION=3.2.1
 ARG HADOOP_MINOR_VERSION=2.7
 ARG HADOOP_VERSION=2.7.2
-ARG SCALA_VERSION=2.12.13
+ARG SCALA_VERSION=2.12.15
 
 RUN apt-get update \
  && apt-get install -y locales \
@@ -65,7 +65,7 @@ ENV QFS_LOGS_DIR /data/qfs/logs
 ENV LD_LIBRARY_PATH ${QFS_HOME}/lib
 ARG QFS_DOWNLOAD_URL="https://s3.amazonaws.com/quantcast-qfs/qfs-debian-9-${QFS_VERSION}-x86_64.tgz"
 RUN echo "Downloading QFS from : ${QFS_DOWNLOAD_URL}\n" \
-	&& curl -L --retry 3 \
+	&& curl -L --retry 3 -k \
 	     $QFS_DOWNLOAD_URL \
 	   | gunzip \
 	   | tar x -C /usr/ \
@@ -97,7 +97,7 @@ RUN mkdir -p /data/spark \
 
 # add python libraries useful in PySpark
 RUN python3 -mpip install matplotlib \
-	&& pip3 install pandas seaborn pyarrow
+	&& pip3 install pandas seaborn pyarrow spark-nlp
 
 # copy QFS and Spark configurations
 COPY ./qfs-conf/* $QFS_HOME/conf/

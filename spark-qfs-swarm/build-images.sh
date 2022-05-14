@@ -12,7 +12,7 @@ b) DOCKER_BUILD_ARGS=${OPTARG};;
 esac
 done
 
-if [ -z "$DOCKER_ARGS" ]
+if [ -z "$DOCKER_BUILD_ARGS" ]
 then
 	echo "Building with default docker options"
 else

@@ -7,6 +7,7 @@ FROM qfs-master:latest
 #
 
 ENV GRAPHFRAMES_VERSION 0.8.2-spark3.2-s_2.12
+ENV SPARK_NLP_VERSION spark-nlp-spark32_2.12:3.4.4
 
 USER root
 RUN apt-get install -y g++
