@@ -1,5 +1,5 @@
 # the total amount of memory a worker (node) can use
-SPARK_WORKER_MEMORY=55g
+SPARK_WORKER_MEMORY=50g
 
 # the total amount of cores a worker (node) can use
 SPARK_WORKER_CORES=12
