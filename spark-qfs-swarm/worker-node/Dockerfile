@@ -1,4 +1,4 @@
-FROM python:3.7-stretch
+FROM python:3.10-slim-buster
 MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
 #
 # Base image for Apache Spark standalone cluster with QFS
@@ -47,7 +47,7 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 
 # JAVA & SCALA
 RUN apt-get update \
- && apt-get install -y openjdk-8-jre \
+ && apt-get install -y openjdk-11-jre \
  && apt-get remove scala-library scala  \
  && curl -o scala-${SCALA_VERSION}.deb https://www.scala-lang.org/files/archive/scala-${SCALA_VERSION}.deb \
  && dpkg -i scala-${SCALA_VERSION}.deb \
@@ -59,11 +59,11 @@ RUN apt-get update \
 RUN useradd -m -s /bin/bash spark
 
 # QFS
-ARG QFS_PACKAGE=qfs-debian-9-${QFS_VERSION}-x86_64
+ARG QFS_PACKAGE=qfs-debian-10-${QFS_VERSION}-x86_64
 ENV QFS_HOME /usr/qfs-${QFS_VERSION}
 ENV QFS_LOGS_DIR /data/qfs/logs
 ENV LD_LIBRARY_PATH ${QFS_HOME}/lib
-ARG QFS_DOWNLOAD_URL="https://s3.amazonaws.com/quantcast-qfs/qfs-debian-9-${QFS_VERSION}-x86_64.tgz"
+ARG QFS_DOWNLOAD_URL="https://s3.amazonaws.com/quantcast-qfs/qfs-debian-10-${QFS_VERSION}-x86_64.tgz"
 RUN echo "Downloading QFS from : ${QFS_DOWNLOAD_URL}\n" \
 	&& curl -L --retry 3 -k \
 	     $QFS_DOWNLOAD_URL \

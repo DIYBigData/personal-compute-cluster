@@ -9,7 +9,7 @@ FROM worker-node:latest
 
 USER root
 RUN apt-get update \
- && apt-get install -y wget vim openssh-client \
+ && apt-get install -y wget vim openssh-client python2.7-minimal \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
@@ -19,8 +19,10 @@ COPY start-qfs-master.sh /
 
 USER spark
 # create some useful bash aliases for when at bash shell prompt of this image
+#  && echo 'alias qfs="qfs -fs qfs://qfs-master:20000 -D fs.trash.minPathDepth=2 -D fs.createParams=2"' >> ~/.bash_aliases \
+
 RUN echo 'export PATH=$PATH:$QFS_HOME/bin/:$QFS_HOME/bin/tools/' >> ~/.bash_aliases \
- && echo 'alias qfs="qfs -fs qfs://qfs-master:20000 -D fs.trash.minPathDepth=2 -D fs.createParams=2"' >> ~/.bash_aliases \
+ && echo 'alias qfs="qfs -fs qfs://qfs-master:20000 -D fs.trash.minPathDepth=2"' >> ~/.bash_aliases \
  && echo 'alias cptoqfs="cptoqfs -s qfs-master -p 20000"' >> ~/.bash_aliases \
  && echo 'alias cpfromqfs="cpfromqfs -s qfs-master -p 20000"' >> ~/.bash_aliases \
  && echo 'alias qfsshell="qfsshell -s qfs-master -p 20000"' >> ~/.bash_aliases \
