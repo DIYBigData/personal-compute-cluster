@@ -15,10 +15,10 @@ MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
 #	spark-master - the service where the spark master runs
 #
 
-ARG QFS_VERSION=2.2.5
-ARG SPARK_VERSION=3.3.2
-ARG HADOOP_MAJOR_VERSION=2
-ARG HADOOP_VERSION=2.7.2
+ARG QFS_VERSION=2.2.6
+ARG SPARK_VERSION=3.3.3
+ARG HADOOP_MAJOR_VERSION=3
+ARG HADOOP_VERSION=3.3.1
 ARG SCALA_VERSION=2.12.15
 
 RUN apt-get update \
@@ -97,7 +97,7 @@ RUN mkdir -p /data/spark \
 
 # add python libraries useful in PySpark
 RUN python3 -mpip install matplotlib \
-	&& pip3 install pandas seaborn pyarrow spark-nlp
+	&& pip3 install pandas seaborn pyarrow spark-nlp numpy==1.23.1
 
 # copy QFS and Spark configurations
 COPY ./qfs-conf/* $QFS_HOME/conf/
